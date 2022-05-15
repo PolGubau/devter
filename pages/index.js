@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import { useEffect, useState } from 'react'
 import Head from 'next/head'
 import AppLayout from '../components/AppLayout'
 import { colors } from '../styles/theme'
@@ -10,9 +10,9 @@ import {
   onAuthStateChanged
 } from '../firebase/client'
 
-export default function Home() {
+export default function Home () {
   const [user, setUser] = useState(undefined)
-  
+
   useEffect(() => {
     onAuthStateChanged(setUser)
   }, [])
@@ -51,7 +51,7 @@ export default function Home() {
               </div>
             }
           </div>
-          
+
         </section>
       </AppLayout>
 
