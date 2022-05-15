@@ -1,25 +1,31 @@
 import { useEffect, useState } from "react"
 import Head from "next/head"
-import AppLayout from "../components/AppLayout"
-import { colors } from "../styles/theme"
-import Button from "../components/Button"
-import GitHub from "../components/Icons/GitHub"
+import AppLayout from "components/AppLayout"
+import { colors } from "styles/theme"
+import Button from "components/Button"
+import GitHub from "components/Icons/GitHub"
 
-import { loginWithGitHub, onAuthStateChanged } from "../firebase/client"
+import { loginWithGitHub, onAuthStateChanged } from "firebase/client"
+
+import { useRouter } from "next/router"
 
 export default function Home() {
   const [user, setUser] = useState(undefined)
+  const router = useRouter()
 
   useEffect(() => {
     onAuthStateChanged(setUser)
   }, [])
 
+  // si user es true, te redirecciona
+  useEffect(() => {
+    user && router.replace("/home")
+  }, [user])
+
   const handleClick = () => {
-    loginWithGitHub()
-      .then(setUser)
-      .catch((err) => {
-        console.log(err)
-      })
+    loginWithGitHub().catch((err) => {
+      console.log(err)
+    })
   }
 
   return (
@@ -32,7 +38,7 @@ export default function Home() {
       <AppLayout>
         <section>
           <img src="/devter-logo.png" alt="Logo" />
-          <h1>Devter</h1>
+          <h1>Capella</h1>
           <h2>
             Talk about development
             <br />
@@ -46,12 +52,7 @@ export default function Home() {
                 Login with GitHub
               </Button>
             )}
-            {user && user.avatar && (
-              <div>
-                <img src={user.avatar} />
-                <strong>{user.username}</strong>
-              </div>
-            )}
+            {user === undefined && <img src="loading.gif" alt="Loading..." />}
           </div>
         </section>
       </AppLayout>
