@@ -35,17 +35,18 @@ export default function HomePage() {
         </section>
 
         {/* BOTTOM NAV */}
-        <nav></nav>
+        <nav>Options and buttons</nav>
       </AppLayout>
 
       {/* Styles */}
       <style jsx>{`
         header {
-          background-color: #fff;
+          background-color: #ffffffbb;
+          backdrop-filter: blur(5px);
           display: flex;
           align-items: center;
           width: 100%;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #eee;
           height: 49px;
           position: sticky;
           padding: 5px 10px;
@@ -57,14 +58,14 @@ export default function HomePage() {
           font-weight: 700;
         }
         section {
-          padding-top: 49px;
           width: 100%;
           min-height: calc(100% - 49px - 49px);
         }
         nav {
-          border-top: 1px solid #ccc;
+          border-top: 1px solid #eee;
           width: 100%;
-          background-color: #fff;
+          background-color: #ffffffbb;
+          backdrop-filter: blur(5px);#fff;
           position: sticky;
           height: 49px;
           bottom: 0;
