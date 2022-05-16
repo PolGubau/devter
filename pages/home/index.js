@@ -1,15 +1,19 @@
 import AppLayout from "@c/AppLayout"
 import Message from "@c/Message"
+import useUser from "hooks/useUser"
 import { useEffect, useState } from "react"
 
 export default function HomePage() {
+  const user = useUser()
+
   const [timeline, setTimeline] = useState([])
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/statuses/home_timeline")
-      .then((res) => res.json())
-      .then(setTimeline)
-  }, [])
+    user &&
+      fetch("http://localhost:3000/api/statuses/home_timeline")
+        .then((res) => res.json())
+        .then(setTimeline)
+  }, [user])
 
   return (
     <>

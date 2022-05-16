@@ -1,21 +1,18 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import Head from "next/head"
 import AppLayout from "components/AppLayout"
 import { colors } from "styles/theme"
 import Button from "components/Button"
 import GitHub from "components/Icons/GitHub"
 
-import { loginWithGitHub, onAuthStateChanged } from "firebase/client"
+import { loginWithGitHub } from "firebase/client"
 
 import { useRouter } from "next/router"
+import useUser, { USER_STATES } from "hooks/useUser"
 
 export default function Home() {
-  const [user, setUser] = useState(undefined)
   const router = useRouter()
-
-  useEffect(() => {
-    onAuthStateChanged(setUser)
-  }, [])
+  const user = useUser()
 
   // si user es true, te redirecciona
   useEffect(() => {
@@ -46,13 +43,15 @@ export default function Home() {
           </h2>
 
           <div>
-            {user === null && (
+            {user === USER_STATES.NOT_LOGGED && (
               <Button onClick={handleClick}>
                 <GitHub fill="#fff" width={24} height={24} />
                 Login with GitHub
               </Button>
             )}
-            {user === undefined && <img src="loading.gif" alt="Loading..." />}
+            {user === USER_STATES.NOT_KNOWN && (
+              <img src="loading.gif" alt="Loading..." />
+            )}
           </div>
         </section>
       </AppLayout>

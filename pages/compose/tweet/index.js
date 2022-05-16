@@ -1,20 +1,25 @@
 import AppLayout from "@c/AppLayout"
 import Button from "@c/Button"
+import useUser from "hooks/useUser"
 import { useRouter } from "next/router"
 
 export default function ComposeTweet() {
-  const router = useRouter()
+  useUser()
 
   function pageBack() {
+    const router = useRouter()
     router.replace("/home")
   }
+
   return (
     <AppLayout>
-      <button onClick={pageBack}>Return</button>
-      <textarea placeholder="¿Qué está pasando?"></textarea>
-      <div>
-        <Button>Capellar</Button>
-      </div>
+      <form>
+        <button onClick={pageBack}>Return</button>
+        <textarea placeholder="¿Qué está pasando?"></textarea>
+        <div>
+          <Button>Publicar</Button>
+        </div>
+      </form>
 
       <style jsx>{`
         textarea {
