@@ -1,18 +1,18 @@
-import AppLayout from "@c/AppLayout"
-import Message from "@c/Message"
-import useUser from "hooks/useUser"
+import Button from "@c/Button"
 import { useEffect, useState } from "react"
+import AppLayout from "src/components/AppLayout"
+import Message from "src/components/Message"
+import useUser from "src/hooks/useUser"
+import { useRouter } from "next/router"
+import { fetchLatestMessages } from "firebase/client"
 
 export default function HomePage() {
   const user = useUser()
-
+  const router = useRouter()
   const [timeline, setTimeline] = useState([])
 
   useEffect(() => {
-    user &&
-      fetch("http://localhost:3000/api/statuses/home_timeline")
-        .then((res) => res.json())
-        .then(setTimeline)
+    user && fetchLatestMessages().then(setTimeline)
   }, [user])
 
   return (
@@ -25,21 +25,27 @@ export default function HomePage() {
 
         {/* TIMELINE */}
         <section>
-          {timeline.map((message) => {
-            return (
-              <Message
-                key={message.id}
-                id={message.id}
-                avatar={message.avatar}
-                username={message.username}
-                message={message.message}
-              />
-            )
-          })}
+          {timeline.map(
+            ({ createdAt, userId, id, userName, avatar, content }) => {
+              return (
+                <Message
+                  key={id}
+                  id={id}
+                  createdAt={createdAt}
+                  avatar={avatar}
+                  userName={userName}
+                  content={content}
+                  userId={userId}
+                />
+              )
+            }
+          )}
         </section>
 
         {/* BOTTOM NAV */}
-        <nav>Options and buttons</nav>
+        <nav>
+          <Button onClick={() => router.push("/compose/tweet")}>Escribe</Button>
+        </nav>
       </AppLayout>
 
       {/* Styles */}

@@ -1,14 +1,14 @@
 import { useEffect } from "react"
 import Head from "next/head"
-import AppLayout from "components/AppLayout"
-import { colors } from "styles/theme"
-import Button from "components/Button"
-import GitHub from "components/Icons/GitHub"
+import AppLayout from "src/components/AppLayout"
+import { colors } from "src/styles/theme"
+import Button from "src/components/Button"
+import GitHub from "src/components/Icons/GitHub"
 
 import { loginWithGitHub } from "firebase/client"
 
 import { useRouter } from "next/router"
-import useUser, { USER_STATES } from "hooks/useUser"
+import useUser, { USER_STATES } from "src/hooks/useUser"
 
 export default function Home() {
   const router = useRouter()
@@ -19,7 +19,12 @@ export default function Home() {
     user && router.replace("/home")
   }, [user])
 
-  const handleClick = () => {
+  const handleClickGithub = () => {
+    loginWithGitHub().catch((err) => {
+      console.log(err)
+    })
+  }
+  const handleClickGoogle = () => {
     loginWithGitHub().catch((err) => {
       console.log(err)
     })
@@ -44,10 +49,13 @@ export default function Home() {
 
           <div>
             {user === USER_STATES.NOT_LOGGED && (
-              <Button onClick={handleClick}>
-                <GitHub fill="#fff" width={24} height={24} />
-                Login with GitHub
-              </Button>
+              <>
+                <Button onClick={handleClickGithub}>
+                  <GitHub fill="#fff" width={24} height={24} />
+                  Login with GitHub
+                </Button>
+                <Button onClick={handleClickGoogle}>Login with Google</Button>
+              </>
             )}
             {user === USER_STATES.NOT_KNOWN && (
               <img src="loading.gif" alt="Loading..." />
