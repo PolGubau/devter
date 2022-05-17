@@ -40,7 +40,6 @@ export default function FormTweet() {
         )
         setProgress(progress)
 
-        console.log(progress)
         setStatus(DRAG_IMAGE_STATE.UPLOADING)
       }
       const onError = () => {
@@ -49,11 +48,10 @@ export default function FormTweet() {
       }
       const onComplete = () => {
         setStatus(DRAG_IMAGE_STATE.COMPLETE)
-        getDownloadURL(task.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL)
-          console.log(imgURL)
 
-          setImgURL(downloadURL)
+        getDownloadURL(task.snapshot.ref).then((downloadURL) => {
+          const path = downloadURL
+          setImgURL(path)
         })
       }
       task.on("state_changed", onProgress, onError, onComplete)
@@ -122,7 +120,7 @@ export default function FormTweet() {
         )}
         {imgURL && (
           <section>
-            <button className="deleteImage" onClick={setImgURL(null)}>
+            <button className="deleteImage" onClick={() => setImgURL(null)}>
               X
             </button>
             <img className="uploadedFoto" src={imgURL} />
@@ -153,7 +151,6 @@ export default function FormTweet() {
           width: 50px;
           height: 50px;
         }
-
         textarea {
           outline: 0;
           width: 100%;

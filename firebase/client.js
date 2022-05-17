@@ -17,12 +17,7 @@ import {
   signInWithPopup,
 } from "firebase/auth"
 
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage"
+import { getStorage, ref, uploadBytesResumable } from "firebase/storage"
 
 const firebaseConfig = {
   apiKey: "AIzaSyDHXsJKV_umLHJYY9aWNPex8JpZYKaLkus",
@@ -129,11 +124,4 @@ export const uploadImage = (file) => {
   const uploadTask = uploadBytesResumable(storageRef, file, metadata)
 
   return uploadTask
-}
-
-export function seeImage(uploadTask) {
-  getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-    console.log("File available at", downloadURL)
-    return downloadURL
-  })
 }
