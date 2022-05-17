@@ -27,8 +27,18 @@ export default function HomePage() {
         </header>
 
         <section>
+          {console.log(timeline)}
           {timeline.map(
-            ({ createdAt, userId, id, userName, avatar, content }) => {
+            ({
+              createdAt,
+              userId,
+              id,
+              userName,
+              avatar,
+              content,
+              likesCount,
+              sharedCount,
+            }) => {
               return (
                 <Message
                   key={id}
@@ -38,6 +48,8 @@ export default function HomePage() {
                   userName={userName}
                   content={content}
                   userId={userId}
+                  likesCount={likesCount}
+                  sharedCount={sharedCount}
                 />
               )
             }

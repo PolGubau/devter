@@ -7,6 +7,8 @@ import {
   query,
   orderBy,
   getDocs,
+  deleteDoc,
+  doc,
   addDoc,
 } from "firebase/firestore"
 import {
@@ -124,4 +126,9 @@ export const uploadImage = (file) => {
   const uploadTask = uploadBytesResumable(storageRef, file, metadata)
 
   return uploadTask
+}
+
+export const deleteMessage = async (idMessage) => {
+  console.log(idMessage)
+  await deleteDoc(doc(db, "messages", idMessage))
 }

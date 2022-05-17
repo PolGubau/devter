@@ -1,6 +1,7 @@
 import Avatar from "src/components/Avatar"
 import { useRouter } from "next/router"
 import useTimeAgo from "@h/useTimeAgo"
+import { deleteMessage } from "firebase/client"
 
 export default function Message({
   createdAt,
@@ -8,6 +9,8 @@ export default function Message({
   id,
   userName,
   avatar,
+  likesCount,
+  sharedCount,
   content,
 }) {
   const router = useRouter()
@@ -16,7 +19,9 @@ export default function Message({
   }
 
   const timeAgo = useTimeAgo(createdAt)
-
+  const handleDelete = (id) => {
+    deleteMessage(id)
+  }
   return (
     <>
       <article key={id}>
@@ -30,10 +35,13 @@ export default function Message({
               <p onClick={handleClick}>@name</p>
             </div>
             <p>{timeAgo}</p>
+            <p onClick={handleDelete}>Borrar Mensaje</p>
           </header>
           <div className="content">
             <p>{content}</p>
           </div>
+          <p>Likes: {likesCount}</p>
+          <p>Share: {sharedCount}</p>
         </section>
       </article>
       <style jsx>{`
