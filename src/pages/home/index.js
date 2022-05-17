@@ -1,14 +1,14 @@
-import Button from "@c/Button"
 import { useEffect, useState } from "react"
 import AppLayout from "src/components/AppLayout"
 import Message from "src/components/Message"
 import useUser from "src/hooks/useUser"
-import { useRouter } from "next/router"
 import { fetchLatestMessages } from "firebase/client"
+import Head from "next/head"
+
+import DownBar from "@c/DownBar"
 
 export default function HomePage() {
   const user = useUser()
-  const router = useRouter()
   const [timeline, setTimeline] = useState([])
 
   useEffect(() => {
@@ -17,13 +17,15 @@ export default function HomePage() {
 
   return (
     <>
+      <Head>
+        <title>Home / Capella </title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <AppLayout>
-        {/* UP HEADER */}
         <header>
           <h2>Inicio</h2>
         </header>
 
-        {/* TIMELINE */}
         <section>
           {timeline.map(
             ({ createdAt, userId, id, userName, avatar, content }) => {
@@ -42,13 +44,9 @@ export default function HomePage() {
           )}
         </section>
 
-        {/* BOTTOM NAV */}
-        <nav>
-          <Button onClick={() => router.push("/compose/tweet")}>Escribe</Button>
-        </nav>
+        <DownBar />
       </AppLayout>
 
-      {/* Styles */}
       <style jsx>{`
         header {
           background-color: #ffffffbb;
@@ -70,15 +68,6 @@ export default function HomePage() {
         section {
           width: 100%;
           min-height: calc(100% - 49px - 49px);
-        }
-        nav {
-          border-top: 1px solid #eee;
-          width: 100%;
-          background-color: #ffffffbb;
-          backdrop-filter: blur(5px);#fff;
-          position: sticky;
-          height: 49px;
-          bottom: 0;
         }
       `}</style>
     </>

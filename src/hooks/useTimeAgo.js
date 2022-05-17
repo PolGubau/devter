@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react"
 
 const DATE_UNITS = [
+  ["years", "31536000"],
+  ["months", "2419200"],
   ["days", "86400"],
   ["hours", "3600"],
   ["minutes", "60"],
@@ -25,12 +27,11 @@ export default function useTimeAgo(timestamp) {
     const interval = setInterval(() => {
       const newTimeAgo = getDateDiffs(timestamp)
       setTimeAgo(newTimeAgo)
-    }, 1000)
+    }, 5000)
     return () => clearInterval(interval)
   }, [timestamp])
 
   const rtf = new Intl.RelativeTimeFormat("es", { style: "short" })
   const { value, unit } = timeAgo
-  console.log(value, unit)
   return rtf.format(value, unit)
 }
