@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import Head from "next/head"
-import AppLayout from "src/components/AppLayout"
+
 import { colors } from "src/styles/theme"
 import Button from "src/components/Button"
 import GitHub from "src/components/Icons/GitHub"
@@ -37,32 +37,30 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <AppLayout>
-        <section>
-          <img src="/devter-logo.png" alt="Logo" />
-          <h1>Capella</h1>
-          <h2>
-            Talk about development
-            <br />
-            with developers 👩‍💻👨‍💻
-          </h2>
+      <section>
+        <img src="/devter-logo.png" alt="Logo" />
+        <h1>Capella</h1>
+        <h2>
+          Talk about development
+          <br />
+          with developers 👩‍💻👨‍💻
+        </h2>
 
-          <div>
-            {user === USER_STATES.NOT_LOGGED && (
-              <>
-                <Button onClick={handleClickGithub}>
-                  <GitHub fill="#fff" width={24} height={24} />
-                  Login with GitHub
-                </Button>
-                <Button onClick={handleClickGoogle}>Login with Google</Button>
-              </>
-            )}
-            {user === USER_STATES.NOT_KNOWN && (
-              <img src="loading.gif" alt="Loading..." />
-            )}
-          </div>
-        </section>
-      </AppLayout>
+        <div>
+          {user === USER_STATES.NOT_LOGGED && (
+            <>
+              <Button onClick={handleClickGithub}>
+                <GitHub fill="#fff" width={24} height={24} />
+                Login with GitHub
+              </Button>
+              <Button onClick={handleClickGoogle}>Login with Google</Button>
+            </>
+          )}
+          {user === USER_STATES.NOT_KNOWN && (
+            <img src="loading.gif" alt="Loading..." />
+          )}
+        </div>
+      </section>
 
       <style jsx>{`
         img {

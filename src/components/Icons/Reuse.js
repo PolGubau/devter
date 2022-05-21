@@ -1,10 +1,10 @@
 import * as React from "react"
 
-export default function Reuse(props) {
+export default function Reuse(height = "21", width = "21", fill = "#000") {
   return (
-    <svg height={21} viewBox="0 0 21 21" width={21} {...props}>
+    <svg height={height} viewBox="0 0 21 21" width={width}>
       <g
-        fill="none"
+        fill={fill}
         fillRule="evenodd"
         strokeLinecap="round"
         strokeLinejoin="round"

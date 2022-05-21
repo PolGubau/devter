@@ -86,7 +86,13 @@ export const loginWithGoogle = () => {
   })
 }
 
-export const addMsgToDB = async ({ avatar, content, userId, userName }) => {
+export const addMsgToDB = async ({
+  avatar,
+  content,
+  userId,
+  userName,
+  img,
+}) => {
   const newMessage = await addDoc(collection(db, "messages"), {
     avatar,
     content,
@@ -95,6 +101,7 @@ export const addMsgToDB = async ({ avatar, content, userId, userName }) => {
     createdAt: Timestamp.fromDate(new Date()),
     likesCount: 0,
     sharedCount: 0,
+    img,
   })
   console.log("Document written with ID: ", newMessage.id)
 }

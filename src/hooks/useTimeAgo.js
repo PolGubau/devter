@@ -7,6 +7,7 @@ const DATE_UNITS = [
   ["hours", "3600"],
   ["minutes", "60"],
   ["seconds", "1"],
+  ["milisecons", "0.001"],
 ]
 const getDateDiffs = (timestamp) => {
   const now = Date.now()
@@ -27,7 +28,7 @@ export default function useTimeAgo(timestamp) {
     const interval = setInterval(() => {
       const newTimeAgo = getDateDiffs(timestamp)
       setTimeAgo(newTimeAgo)
-    }, 5000)
+    }, 1000)
     return () => clearInterval(interval)
   }, [timestamp])
 

@@ -71,6 +71,7 @@ export default function FormTweet() {
       content: message,
       userId: user.uid,
       userName: user.username,
+      img: imgURL,
     })
       .then(() => {
         router.push("/home")
