@@ -5,6 +5,7 @@ import { deleteMessage } from "firebase/client"
 import { colors, fontSizes } from "src/styles/theme"
 import { Heart } from "@c/Icons/Heart"
 import { Share } from "@c/Icons/Share"
+import Link from "next/link"
 
 export default function Message({
   createdAt,
@@ -42,7 +43,12 @@ export default function Message({
                 <p onClick={handleClick}>@{userName}</p>
               </div>
               <div className="derecha_colummn">
-                <time>{timeAgo}</time>
+                <Link href={`/status/[id]`} as={`/status/${id}`}>
+                  <a>
+                    <time>{timeAgo}</time>
+                  </a>
+                </Link>
+
                 <p onClick={handleDelete} className="deleteButton">
                   X
                 </p>
