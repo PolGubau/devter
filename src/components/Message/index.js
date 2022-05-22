@@ -6,6 +6,7 @@ import { colors, fontSizes } from "src/styles/theme"
 import { Heart } from "@c/Icons/Heart"
 import { Share } from "@c/Icons/Share"
 import Link from "next/link"
+import useUser from "@h/useUser"
 
 export default function Message({
   createdAt,
@@ -18,21 +19,33 @@ export default function Message({
   content,
   img,
 }) {
-  console.log(img)
-  const router = useRouter()
+  const user = useUser()
+  const routerCreator = useRouter()
+  const routerMessage = useRouter()
   const handleClick = () => {
-    router.push(`/creator/${userId}`)
+    if (user) routerCreator.push(`/creator/${userId}`)
   }
 
   const timeAgo = useTimeAgo(createdAt)
   const handleDelete = (id) => {
     deleteMessage(id)
   }
+  const handleArticleClick = (e) => {
+    e.preventDefault()
+    routerMessage.push(`/status/[id]`, `/status/${id}`)
+  }
+
+  const newLike = () => {
+    likesCount = likesCount + 1
+  }
+  const newShare = () => {
+    sharedCount += 1
+  }
 
   return (
     <>
-      <article key={id}>
-        <div>
+      <article key={id} onClick={handleArticleClick}>
+        <div className="firstPart">
           <div onClick={handleClick} className="avatar">
             <Avatar src={avatar} alt={userName} />
           </div>
@@ -44,7 +57,7 @@ export default function Message({
               </div>
               <div className="derecha_colummn">
                 <Link href={`/status/[id]`} as={`/status/${id}`}>
-                  <a>
+                  <a className="linkToMessage">
                     <time>{timeAgo}</time>
                   </a>
                 </Link>
@@ -57,14 +70,19 @@ export default function Message({
             <div className="content">
               <p className="contentText">{content}</p>
             </div>
+            {img && (
+              <div>
+                <img className="imagen" src={img} />
+              </div>
+            )}
             <div className="likesBox">
-              <div className="likesCont">
+              <div onClick={newLike} className="likesCont">
                 <p>
-                  <Heart fill="white" stroke="#000" size={25} />{" "}
+                  <Heart fill="white" stroke="#000" size={25} />
                 </p>
                 <p className="numberInter">{likesCount}</p>
               </div>
-              <div className="likesCont">
+              <div onClick={newShare} className="sharesCont">
                 <p>
                   <Share fill="white" stroke="#000" size={30} />
                 </p>
@@ -73,7 +91,6 @@ export default function Message({
             </div>
           </section>
         </div>
-        {img && <img className="imagen" src={img} />}
       </article>
       <style jsx>{`
         article {
@@ -81,6 +98,10 @@ export default function Message({
           display: flex;
           flex-direction: column;
           padding: 10px 15px;
+        }
+        article:hover {
+          background-color: #f5f8fa;
+          cursor: pointer;
         }
         header {
           display: flex;
@@ -91,7 +112,11 @@ export default function Message({
           cursor: pointer;
         }
         .content {
+          margin-bottom: 10px;
           width: 100%;
+        }
+        .firstPart {
+          display: flex;
         }
         .imagen {
           width: 100%;
@@ -121,7 +146,8 @@ export default function Message({
           display: flex;
           align-items: center;
         }
-        .likesCont {
+        .likesCont,
+        .sharesCont {
           display: -webkit-box;
           display: -webkit-flex;
           display: -ms-flexbox;
@@ -153,6 +179,14 @@ export default function Message({
         }
         .contentText {
           font-size: ${fontSizes.text};
+        }
+        .linkToMessage {
+          color: #555;
+          font-size: 14px;
+          text-decoration: none;
+        }
+        .linkToMessage:hover {
+          text-decoration: underline;
         }
       `}</style>
     </>
