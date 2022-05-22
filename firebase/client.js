@@ -10,6 +10,8 @@ import {
   deleteDoc,
   doc,
   addDoc,
+  onSnapshot,
+  limit,
 } from "firebase/firestore"
 import {
   getAuth,
@@ -105,7 +107,22 @@ export const addMsgToDB = async ({
   })
   console.log("Document written with ID: ", newMessage.id)
 }
+export const listenLatestMessages = (callback) => {
+  const q = query(
+    collection(db, "messages"),
+    orderBy("createdAt", "desc"),
+    limit(20)
+  )
 
+  onSnapshot(q, (querySnapshot) => {
+    const messages = []
+    querySnapshot.forEach((doc) => {
+      messages.push(doc.data())
+    })
+
+    callback(messages)
+  })
+}
 export const fetchLatestMessages = async () => {
   const q = query(collection(db, "messages"), orderBy("createdAt", "desc"))
   const querySnapshot = await getDocs(q)

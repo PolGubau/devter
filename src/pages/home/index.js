@@ -2,23 +2,29 @@ import { useEffect, useState } from "react"
 
 import Message from "src/components/Message"
 import useUser from "src/hooks/useUser"
-import { fetchLatestMessages } from "firebase/client"
-import Head from "next/head"
+import { listenLatestMessages } from "firebase/client"
+import Head from "next/Head"
 
 import DownBar from "@c/DownBar"
 import Header from "@c/Header"
 
 export default function HomePage() {
-  // const messages = getMessages
   const user = useUser()
-  console.log(user)
 
   const [timeline, setTimeline] = useState([])
+
   useEffect(() => {
-    user && fetchLatestMessages().then(setTimeline)
+    if (user) {
+      listenLatestMessages((messages) => {
+        console.log("listened", messages)
+        setTimeline(messages)
+      })
+    }
   }, [user])
-  // const [internet, setInternet] = useState(false)
-  // if (timeline.length === 0) setInternet(true)
+
+  const [internet, setInternet] = useState(true)
+  if (timeline === 0) setInternet(false)
+
   return (
     <>
       <Head>
@@ -26,7 +32,8 @@ export default function HomePage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header
-        img={user ? user.avatar : "noImage.jpg"}
+        page="Inicio"
+        img={user ? user.avatar : "/noImage.jpg"}
         userID={user ? user.userID : "noUser"}
       />
       <section>
@@ -58,19 +65,19 @@ export default function HomePage() {
             )
           }
         )}
-        {/* {!internet && (
-            <Message
-              key="-1"
-              id="-1"
-              createdAt="165135135"
-              avatar="loading.gif"
-              userName="Pol sin red"
-              content="Estás sin conexión :("
-              userId="-1"
-              likesCount="404"
-              sharedCount="404"
-            />
-          )} */}
+        {!internet && (
+          <Message
+            key="-1"
+            id="-1"
+            createdAt="165135135"
+            avatar="loading.gif"
+            userName="Pol sin red"
+            content="Estás sin conexión :("
+            userId="-1"
+            likesCount="404"
+            sharedCount="404"
+          />
+        )}
       </section>
 
       <DownBar />
