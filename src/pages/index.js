@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import Head from "next/head"
+import Head from "next/Head"
 
 import { colors } from "src/styles/theme"
 import Button from "src/components/Button"
@@ -20,9 +20,11 @@ export default function Home() {
   }, [user])
 
   const handleClickGithub = () => {
-    loginWithGitHub().catch((err) => {
-      console.log(err)
-    })
+    try {
+      loginWithGitHub()
+    } catch (error) {
+      console.log(error)
+    }
   }
   const handleClickGoogle = () => {
     loginWithGitHub().catch((err) => {
