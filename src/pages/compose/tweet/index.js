@@ -5,8 +5,11 @@ import DownBar from "@c/DownBar"
 import Header from "@c/Header"
 import { colors, fontSizes } from "src/styles/theme"
 import { addOpacityToColor } from "src/styles/utils"
+import useUser from "@h/useUser"
 
 export default function ComposeTweet() {
+  const user = useUser()
+  console.log(user)
   const router = useRouter()
 
   function pageBack() {
@@ -18,13 +21,13 @@ export default function ComposeTweet() {
         <title>Message / Capella </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header />
+      <Header page="Nuevo Mensaje" />
       <section>
         <button className="buttonBack" onClick={pageBack}>
-          🔙 Return
+          🔙 Volver
         </button>
 
-        <FormTweet />
+        <FormTweet name={user ? user.username : "🤔"} />
       </section>
 
       <DownBar />
