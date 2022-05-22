@@ -1,6 +1,10 @@
 import { useRouter } from "next/router"
 
-export default function Header({ img = "noImage.jpg", userID = "noUser" }) {
+export default function Header({
+  img = "/noImage.jpg",
+  userID = "noUser",
+  page = "",
+}) {
   const router = useRouter()
 
   const ToProfile = () => {
@@ -10,7 +14,7 @@ export default function Header({ img = "noImage.jpg", userID = "noUser" }) {
     <>
       <header>
         <div className="left">
-          <h2>Inicio</h2>
+          <h2>{page}</h2>
         </div>
         <div className="right">
           <div onClick={ToProfile} className="fotoImg">
