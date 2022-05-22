@@ -6,7 +6,6 @@ import {
   Timestamp,
   query,
   orderBy,
-  getDocs,
   deleteDoc,
   doc,
   addDoc,
@@ -123,18 +122,18 @@ export const listenLatestMessages = (callback) => {
     callback(messages)
   })
 }
-export const fetchLatestMessages = async () => {
-  const q = query(collection(db, "messages"), orderBy("createdAt", "desc"))
-  const querySnapshot = await getDocs(q)
+// export const fetchLatestMessages = async () => {
+//   const q = query(collection(db, "messages"), orderBy("createdAt", "desc"))
+//   const querySnapshot = await getDocs(q)
 
-  return querySnapshot.docs.map((doc) => {
-    const data = doc.data()
-    const id = doc.id
-    const { createdAt } = data
+//   return querySnapshot.docs.map((doc) => {
+//     const data = doc.data()
+//     const id = doc.id
+//     const { createdAt } = data
 
-    return { ...data, id, createdAt: +createdAt.toDate() }
-  })
-}
+//     return { ...data, id, createdAt: +createdAt.toDate() }
+//   })
+// }
 
 export const uploadImage = (file) => {
   const storage = getStorage()

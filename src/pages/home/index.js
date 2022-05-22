@@ -15,10 +15,8 @@ export default function HomePage() {
 
   useEffect(() => {
     if (user) {
-      listenLatestMessages((messages) => {
-        console.log("listened", messages)
-        setTimeline(messages)
-      })
+      // El argumento que da listen... es el mismo que le queremos pasar a setTimeline
+      listenLatestMessages(setTimeline)
     }
   }, [user])
 
