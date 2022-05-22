@@ -14,10 +14,13 @@ export default function HomePage() {
   const [timeline, setTimeline] = useState([])
 
   useEffect(() => {
+    let unsuscribe
+
     if (user) {
       // El argumento que da listen... es el mismo que le queremos pasar a setTimeline
-      listenLatestMessages(setTimeline)
+      unsuscribe = listenLatestMessages(setTimeline)
     }
+    return () => unsuscribe && unsuscribe()
   }, [user])
 
   const [internet, setInternet] = useState(true)
