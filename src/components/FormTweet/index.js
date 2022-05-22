@@ -5,6 +5,7 @@ import { useRouter } from "next/router"
 import { useState, useEffect } from "react"
 import Button from "src/components/Button"
 import useUser from "src/hooks/useUser"
+import { MAX_CHARACTERS } from "src/services/consts"
 
 const COMPOSE_STATES = {
   USER_NOT_KNOWN: 0,
@@ -20,13 +21,14 @@ const DRAG_IMAGE_STATE = {
   COMPLETE: 3,
 }
 
-export default function FormTweet() {
+export default function FormTweet({ name = "Anonymous" }) {
   const router = useRouter()
 
   const user = useUser()
   const [status, setStatus] = useState(COMPOSE_STATES.USER_NOT_KNOWN)
   const [message, setMessage] = useState("")
 
+  const [remainChar, setRemainChar] = useState(MAX_CHARACTERS)
   const [progress, setProgress] = useState(0)
   const [drag, setDrag] = useState(DRAG_IMAGE_STATE.NONE)
   const [imgURL, setImgURL] = useState(null)
@@ -61,6 +63,7 @@ export default function FormTweet() {
   const handleChange = (e) => {
     const { value } = e.target
     setMessage(value)
+    setRemainChar(MAX_CHARACTERS - value.length)
   }
   const handleSubmit = (e) => {
     console.log("Trying to send messages")
@@ -101,13 +104,16 @@ export default function FormTweet() {
     setTask(task)
   }
 
-  const isButtonDisabled = !message.length || status === COMPOSE_STATES.LOADING
+  const isButtonDisabled =
+    !message.length || status === COMPOSE_STATES.LOADING || remainChar < 0
+
+  // MaxText
 
   return (
     <>
       <form onSubmit={handleSubmit}>
         <textarea
-          placeholder="¿Qué está pasando?"
+          placeholder={`¿Qué está pasando ?`}
           value={message}
           onChange={handleChange}
           onDragEnter={handleDragEnter}
@@ -130,8 +136,11 @@ export default function FormTweet() {
         {progress !== 100 && <div className="loadingLine"></div>}
 
         <div className="buttonPublicar">
-          <Button disabled={isButtonDisabled}>Publicar</Button>
+          <Button disabled={isButtonDisabled}>Publicar como {name}</Button>
         </div>
+        {remainChar > 0 && <p>Puedes escribir aún {remainChar} carácteres.</p>}
+        {remainChar === 0 && <p>Has clavado los carácteres, wow.</p>}
+        {remainChar < 0 && <p>Te has pasado por {-remainChar} carácteres.</p>}
       </form>
 
       <style jsx>{`
@@ -179,6 +188,11 @@ export default function FormTweet() {
         }
         .buttonPublicar {
           padding: 15px;
+          display: flex;
+          flex-direction: row;
+        }
+        .buttonPublicar p {
+          margin-left: 10px;
         }
       `}</style>
     </>
