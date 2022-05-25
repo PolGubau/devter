@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 
 export default function Header({
-  img = "/noImage.jpg",
+  img = "./noImage.jpg",
   userID = "noUser",
   page = "",
 }) {
@@ -18,7 +18,7 @@ export default function Header({
         </div>
         <div className="right">
           <div onClick={ToProfile} className="fotoImg">
-            <img alt="Foto de usuario" src={img} />
+            <img alt="Foto de usuario" className="userImage" src={img} />
           </div>
         </div>
       </header>
@@ -49,10 +49,16 @@ export default function Header({
             font-weight: 700;
           }
           .fotoImg {
+            display: flex;
+            justify-items: centers;
+            align-items: center;
             width: 30px;
             height: 30px;
             background-color: #09f;
             border-radius: 99px;
+          }
+          .userImage {
+            height: 100%;
           }
         `}
       </style>

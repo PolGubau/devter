@@ -1,102 +1,44 @@
-import Avatar from "src/components/Avatar"
-import { useRouter } from "next/router"
-import useTimeAgo from "@h/useTimeAgo"
-import { deleteMessage } from "firebase/client"
 import { colors, fontSizes } from "src/styles/theme"
 import { Heart } from "@c/Icons/Heart"
-import { Share } from "@c/Icons/Share"
-import Link from "next/link"
-import useUser from "@h/useUser"
-import { useState } from "react"
 
-export default function Message({
-  createdAt,
-  userId,
-  id,
-  userName,
-  avatar,
-  likesCount,
-  sharedCount,
-  content,
-  img,
-  clickable = true,
-}) {
-  const user = useUser()
-  const routerCreator = useRouter()
-  const routerMessage = useRouter()
-  const [liked, setLiked] = useState(false)
-  const timeAgo = useTimeAgo(createdAt)
-
-  const handleClick = () => {
-    if (user) routerCreator.push(`/creator/${userId}`)
-  }
-
-  const handleDelete = (id) => {
-    deleteMessage(id)
-  }
-  const handleArticleClick = (e) => {
-    e.preventDefault()
-    if (clickable) {
-      routerMessage.push(`/status/[id]`, `/status/${id}`)
-    }
-  }
-
-  const newLike = () => {
-    setLiked(!liked)
-  }
-  const newShare = () => {
-    sharedCount += 1
-  }
-
+export default function MessageEmpty() {
   return (
     <>
-      <article key={id} onClick={handleArticleClick}>
+      <article>
         <div className="firstPart">
-          <div onClick={handleClick} className="avatar">
-            <Avatar src={avatar} alt={userName} />
+          <div className="avatar">
+            <div className="imageSpace"></div>
           </div>
           <section>
             <header>
               <div className="names">
-                <strong onClick={handleClick}>{userName}</strong>
-                <p onClick={handleClick}>@{userName}</p>
+                <strong className="userNameTitle"></strong>
+                <p className="userNameAt">@</p>
               </div>
               <div className="derecha_colummn">
-                <Link href={`/status/[id]`} as={`/status/${id}`}>
-                  <a className="linkToMessage">
-                    <time>{timeAgo}</time>
-                  </a>
-                </Link>
-
-                <p onClick={handleDelete} className="deleteButton">
-                  X
+                <p className="linkToMessage">
+                  <time>cccc</time>
                 </p>
+
+                <p className="deleteButton">X</p>
               </div>
             </header>
             <div className="content">
-              <p className="contentText">{content}</p>
+              <p className="contentText"></p>
             </div>
-            {img && (
-              <div>
-                <img className="imagen" src={img} />
-              </div>
-            )}
+
             <div className="likesBox">
-              <div onClick={newLike} className="likesCont">
+              <div className="likesCont">
                 <p>
-                  <Heart
-                    fill={liked ? "#F00" : "##fff"}
-                    stroke={liked ? "#F00" : "#000"}
-                    size={25}
-                  />
+                  <Heart fill={"#ccc"} stroke={"#ccc"} size={25} />
                 </p>
-                <p className="numberInter">{likesCount}</p>
+                <p className="numberInter"></p>
               </div>
-              <div onClick={newShare} className="sharesCont">
+              <div className="sharesCont">
                 <p>
-                  <Share fill="white" stroke="#000" size={30} />
+                  <Heart fill={"#ccc"} stroke={"#ccc"} size={25} />
                 </p>
-                <p className="numberInter">{sharedCount}</p>
+                <p className="numberInter">eee</p>
               </div>
             </div>
           </section>
@@ -116,6 +58,19 @@ export default function Message({
         header {
           display: flex;
           justify-content: space-between;
+        }
+        .userNameTitle {
+          background: #aaa;
+          width: 130px;
+          border-radius: 99px;
+          height: 30px;
+        }
+        .userNameAt {
+          padding: 0 5px;
+          background: #bbb;
+          width: 80px;
+          border-radius: 99px;
+          height: 30px;
         }
         .avatar {
           padding-right: 10px;
@@ -171,7 +126,8 @@ export default function Message({
           justify-content: flex-end;
         }
         .numberInter {
-          margin: 0 5px;
+          background: #bbb;
+          width: 40px;
         }
 
         .deleteButton {
@@ -188,7 +144,11 @@ export default function Message({
           font-size: 0.9em;
         }
         .contentText {
-          font-size: ${fontSizes.text};
+          background: #ccc;
+          width: 90%;
+          height: 70px;
+          margin: 10px 0;
+          border-radius: 15px;
         }
         .linkToMessage {
           color: #555;

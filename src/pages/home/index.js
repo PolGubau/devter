@@ -1,30 +1,37 @@
 import { useEffect, useState } from "react"
 
-import Message from "src/components/Message"
 import useUser from "src/hooks/useUser"
 import { listenLatestMessages } from "firebase/client"
 import Head from "next/Head"
 
 import DownBar from "@c/DownBar"
 import Header from "@c/Header"
+import { LOADING_STATE } from "src/services/consts"
+import AllMessages from "@c/Feed/AllMessages"
+import NoMessages from "@c/Feed/NoMessages"
 
 export default function HomePage() {
   const user = useUser()
 
   const [timeline, setTimeline] = useState([])
-
+  const [internet, setInternet] = useState(false)
+  const [stateMessages, setStateMessages] = useState(LOADING_STATE.NOT_GOT_IT)
   useEffect(() => {
     let unsuscribe
-
+    setStateMessages(LOADING_STATE.LOADING)
     if (user) {
       // El argumento que da listen... es el mismo que le queremos pasar a setTimeline
       unsuscribe = listenLatestMessages(setTimeline)
+      if (timeline.length !== 0) {
+        // Si recibe datos de firebase
+        setInternet(true)
+        setStateMessages(LOADING_STATE.GOT_IT)
+      } else {
+        setStateMessages(LOADING_STATE.NOT_GOT_IT)
+      }
     }
     return () => unsuscribe && unsuscribe()
   }, [user])
-
-  const [internet, setInternet] = useState(true)
-  if (timeline === 0) setInternet(false)
 
   return (
     <>
@@ -32,53 +39,17 @@ export default function HomePage() {
         <title>Home / Capella </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <Header
         page="Inicio"
-        img={user ? user.avatar : "/noImage.jpg"}
+        img={internet && user ? user.avatar : "./noImage.jpg"}
         userID={user ? user.userID : "noUser"}
       />
       <section>
-        {timeline.map(
-          ({
-            createdAt,
-            userId,
-            id,
-            userName,
-            avatar,
-            content,
-            likesCount,
-            sharedCount,
-            img,
-          }) => {
-            return (
-              <Message
-                key={id}
-                id={id}
-                createdAt={createdAt}
-                avatar={avatar}
-                img={img}
-                userName={userName}
-                content={content}
-                userId={userId}
-                likesCount={likesCount}
-                sharedCount={sharedCount}
-              />
-            )
-          }
+        {stateMessages === LOADING_STATE.GOT_IT && (
+          <AllMessages timeline={timeline} />
         )}
-        {!internet && (
-          <Message
-            key="-1"
-            id="-1"
-            createdAt="165135135"
-            avatar="loading.gif"
-            userName="Pol sin red"
-            content="Estás sin conexión :("
-            userId="-1"
-            likesCount="404"
-            sharedCount="404"
-          />
-        )}
+        {stateMessages === LOADING_STATE.NOT_GOT_IT && <NoMessages />}
       </section>
 
       <DownBar />
