@@ -106,7 +106,7 @@ export const addMsgToDB = async ({
   })
   console.log("Document written with ID: ", newMessage.id)
 }
-export const listenLatestMessages = (callback) => {
+export const listenLatestMessages = (callback, loading = true) => {
   const q = query(
     collection(db, "messages"),
     orderBy("createdAt", "desc"),
@@ -118,8 +118,9 @@ export const listenLatestMessages = (callback) => {
     querySnapshot.forEach((doc) => {
       messages.push(doc.data())
     })
+    loading = false
 
-    callback(messages)
+    callback(messages, loading)
   })
 }
 // export const fetchLatestMessages = async () => {
