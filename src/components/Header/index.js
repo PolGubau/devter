@@ -1,15 +1,12 @@
 import { useRouter } from "next/router"
 
 export default function Header({
-  img = "./noImage.jpg",
+  img = "/noImage.jpg",
   userID = "noUser",
   page = "",
 }) {
   const router = useRouter()
 
-  const ToProfile = () => {
-    router.push(`user/${userID}`)
-  }
   return (
     <>
       <header>
@@ -17,7 +14,10 @@ export default function Header({
           <h2>{page}</h2>
         </div>
         <div className="right">
-          <div onClick={ToProfile} className="fotoImg">
+          <div
+            onClick={() => router.push(`user/${userID}`)}
+            className="fotoImg"
+          >
             <img alt="Foto de usuario" className="userImage" src={img} />
           </div>
         </div>

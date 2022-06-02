@@ -9,22 +9,24 @@ import Header from "@c/Header"
 import { LOADING_STATE } from "src/services/consts"
 import AllMessages from "@c/Feed/AllMessages"
 import NoMessages from "@c/Feed/NoMessages"
+import useInternet from "@h/useInternet"
 
 export default function HomePage() {
   const user = useUser()
 
   const [timeline, setTimeline] = useState([])
-  const [internet, setInternet] = useState(false)
+  const internet = useInternet([])
+
   const [stateMessages, setStateMessages] = useState(LOADING_STATE.NOT_GOT_IT)
+  const loading = true
   useEffect(() => {
     let unsuscribe
     setStateMessages(LOADING_STATE.LOADING)
     if (user) {
       // El argumento que da listen... es el mismo que le queremos pasar a setTimeline
-      unsuscribe = listenLatestMessages(setTimeline)
+      unsuscribe = listenLatestMessages(setTimeline, loading)
       if (timeline.length !== 0) {
         // Si recibe datos de firebase
-        setInternet(true)
         setStateMessages(LOADING_STATE.GOT_IT)
       } else {
         setStateMessages(LOADING_STATE.NOT_GOT_IT)
@@ -32,6 +34,8 @@ export default function HomePage() {
     }
     return () => unsuscribe && unsuscribe()
   }, [user])
+
+  console.log(timeline)
 
   return (
     <>

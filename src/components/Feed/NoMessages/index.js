@@ -18,7 +18,11 @@ export default function NoMessages() {
       />
 
       <section>
-        <MessageEmpty />
+        <MessageEmpty opacity={1} />
+        <MessageEmpty opacity={0.9} />
+        <MessageEmpty opacity={0.8} />
+        <MessageEmpty opacity={0.7} />
+        <MessageEmpty opacity={0.6} />
       </section>
 
       <style jsx>{``}</style>

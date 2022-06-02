@@ -1,7 +1,7 @@
-import { colors, fontSizes } from "src/styles/theme"
+import { fontSizes } from "src/styles/theme"
 import { Heart } from "@c/Icons/Heart"
 
-export default function MessageEmpty() {
+export default function MessageEmpty({ opacity }) {
   return (
     <>
       <article>
@@ -17,7 +17,7 @@ export default function MessageEmpty() {
               </div>
               <div className="derecha_colummn">
                 <p className="linkToMessage">
-                  <time>cccc</time>
+                  <time>timetime</time>
                 </p>
 
                 <p className="deleteButton">X</p>
@@ -30,44 +30,55 @@ export default function MessageEmpty() {
             <div className="likesBox">
               <div className="likesCont">
                 <p>
-                  <Heart fill={"#ccc"} stroke={"#ccc"} size={25} />
+                  <Heart fill="#ccc" stroke="#ccc" size={25} />
                 </p>
                 <p className="numberInter"></p>
               </div>
               <div className="sharesCont">
                 <p>
-                  <Heart fill={"#ccc"} stroke={"#ccc"} size={25} />
+                  <Heart fill="#ccc" stroke="#ccc" size={25} />
                 </p>
-                <p className="numberInter">eee</p>
+                <p className="numberInter"></p>
               </div>
             </div>
           </section>
         </div>
       </article>
       <style jsx>{`
+        * {
+          opacity: ${opacity};
+        }
         article {
-          border-bottom: solid #ccc 2px;
+          border-bottom: solid #bbe 2px;
           display: flex;
           flex-direction: column;
           padding: 10px 15px;
         }
         article:hover {
           background-color: #f5f8fa;
+
           cursor: pointer;
         }
         header {
           display: flex;
           justify-content: space-between;
         }
+        .imageSpace {
+          width: 50px;
+          height: 50px;
+          background: #bbe;
+          border-radius: 15px;
+        }
         .userNameTitle {
-          background: #aaa;
+          background: #bbe;
           width: 130px;
           border-radius: 99px;
           height: 30px;
         }
         .userNameAt {
+          color: white;
           padding: 0 5px;
-          background: #bbb;
+          background: #cce;
           width: 80px;
           border-radius: 99px;
           height: 30px;
@@ -76,6 +87,13 @@ export default function MessageEmpty() {
           padding-right: 10px;
           cursor: pointer;
         }
+        time {
+          color: transparent;
+          width: 60px;
+          height: 15px;
+          background-color: #bbe;
+          border-radius: 10px;
+        }
         .content {
           margin-bottom: 10px;
           width: 100%;
@@ -83,10 +101,7 @@ export default function MessageEmpty() {
         .firstPart {
           display: flex;
         }
-        .imagen {
-          width: 100%;
-          border-radius: 10px;
-        }
+
         .names {
           display: flex;
           cursor: pointer;
@@ -126,13 +141,16 @@ export default function MessageEmpty() {
           justify-content: flex-end;
         }
         .numberInter {
-          background: #bbb;
+          background: #cce;
           width: 40px;
+          margin: 0 5px;
+          border-radius: 15px;
+          height: 20px;
         }
 
         .deleteButton {
           cursor: pointer;
-          background: ${colors.secondary};
+          background-color: #99e;
           width: 30px;
           height: 30px;
           display: flex;
@@ -144,19 +162,11 @@ export default function MessageEmpty() {
           font-size: 0.9em;
         }
         .contentText {
-          background: #ccc;
+          background: #cce;
           width: 90%;
           height: 70px;
           margin: 10px 0;
           border-radius: 15px;
-        }
-        .linkToMessage {
-          color: #555;
-          font-size: 14px;
-          text-decoration: none;
-        }
-        .linkToMessage:hover {
-          text-decoration: underline;
         }
       `}</style>
     </>

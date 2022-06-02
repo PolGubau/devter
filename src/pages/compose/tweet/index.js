@@ -6,24 +6,26 @@ import Header from "@c/Header"
 import { colors, fontSizes } from "src/styles/theme"
 import { addOpacityToColor } from "src/styles/utils"
 import useUser from "@h/useUser"
+import useInternet from "@h/useInternet"
 
 export default function ComposeTweet() {
   const user = useUser()
-  console.log(user)
+  const internet = useInternet([])
   const router = useRouter()
 
-  function pageBack() {
-    router.replace("/home")
-  }
   return (
     <>
       <Head>
         <title>Message / Capella </title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header page="Nuevo Mensaje" />
+      <Header
+        page="Escribe un mensaje"
+        img={internet && user ? user.avatar : "/noImage.jpg"}
+        userID={user ? user.userID : "noUser"}
+      />
       <section>
-        <button className="buttonBack" onClick={pageBack}>
+        <button className="buttonBack" onClick={() => router.push("/home")}>
           🔙 Volver
         </button>
 
